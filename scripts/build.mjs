@@ -1,0 +1,10 @@
+import { cp, mkdir, rm, writeFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
+const root=new URL('../',import.meta.url),dest=new URL('dist/',root);
+await rm(dest,{recursive:true,force:true});
+await mkdir(dest,{recursive:true});
+await cp(new URL('public/',root),dest,{recursive:true,filter:source=>!source.includes('/prototypes')});
+await writeFile(new URL('runtime-config.js',dest),"export const STORAGE_MODE = 'browser';\n");
+for(const name of ['LICENSE','ASSETS.md'])await cp(new URL(name,root),new URL(name,dest));
+await writeFile(new URL('.nojekyll',dest),'');
+console.log(`Browser-only demo built at ${fileURLToPath(dest)}. Host this folder on GitHub Pages or upload its contents as an HTML game on itch.io.`);

@@ -1,0 +1,11 @@
+node_modules/
+.DS_Store
+data/
+.env
+.env.*
+coverage/
+*.log
+dist/
+promo-output/
+desktop-dist/
+sound-output/

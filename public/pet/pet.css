@@ -1,0 +1,131 @@
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent;font-family:system-ui,sans-serif;user-select:none;-webkit-user-select:none}body.browser-preview{background:radial-gradient(ellipse at 50% 70%,#ecf1dd,#f9f6ec);min-height:300px}button{border:0;background:transparent;cursor:pointer;touch-action:none;color:#778364}button:focus-visible{outline:2px solid #a28e6c;outline-offset:3px}#pet-world{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}#creature{position:absolute;width:260px;height:190px;bottom:40px;padding:0;transform-origin:50% 85%;transition:filter .3s}#shell,#shell svg{display:block;width:100%;height:100%;overflow:visible}#shell{transform-origin:50% 85%;animation:soft-breath 4s ease-in-out infinite}#creature.crawl #shell{animation:soft-crawl 2.2s ease-in-out infinite}#creature.hop #shell{animation:soft-hop 1.7s ease-in-out infinite}#creature.sleepy #shell,#creature.recovering #shell{animation:soft-sleep 5s ease-in-out infinite}#creature.overwhelmed #shell,#creature.cracked #shell{animation:tiny-shiver .3s ease-in-out 3}#creature.pat #shell{animation:soft-pat .5s ease-in-out 1}.controls{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:3px;border:1px solid #d2d9c3aa;background:#fbfcf0dd;border-radius:25px;padding:5px;opacity:0;transition:opacity .18s;white-space:nowrap}body:hover .controls,.controls:focus-within,.browser-preview .controls{opacity:1}.controls button{width:29px;height:29px;border-radius:50%;font-size:18px}.controls button:hover,.controls button[aria-pressed=true]{background:#dce6cc}#drag{cursor:grab}#drag:active{cursor:grabbing}#save-alert{position:absolute;bottom:49px;right:13px;color:#b48357}#save-alert[hidden]{display:none}@keyframes soft-crawl{0%,100%{transform:scale(1,.96)}25%{transform:scale(1.12,.86) translateX(4px)}60%{transform:scale(.94,1.02) translateX(9px)}85%{transform:scale(1.03,.94) translateX(3px)}}@keyframes soft-hop{0%,65%,100%{transform:scale(1,1)}14%{transform:scale(1.12,.83)}34%{transform:translateY(-27px) scale(.92,1.08)}52%{transform:scale(1.10,.86)}}@keyframes soft-breath{50%{transform:scale(1.02,.98)}}@keyframes soft-sleep{50%{transform:scale(1.08,.86)}0%,100%{transform:scale(1.04,.9)}}@keyframes tiny-shiver{50%{transform:translateX(3px) scale(1.06,.91)}}@keyframes soft-pat{40%{transform:scale(1.12,.8)}75%{transform:scale(.96,1.04)}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+
+html.creature-cursor,html.creature-cursor *{cursor:var(--creature-cursor),auto!important}
+
+body.following #creature{width:146px;height:110px;bottom:15px}body.following .controls{display:none}body.following #creature:not(.crawl):not(.hop) #shell{animation:soft-sleep 5s ease-in-out infinite}
+
+.controls{width:326px;gap:2px}.controls button{width:27px;min-width:27px;height:27px;padding:3px}.controls svg{width:100%;height:100%}
+.snack-token{position:absolute;width:48px;height:40px;transform:translate(-50%,-70%);pointer-events:none;z-index:5}.snack-token svg{width:100%;height:100%}.snack-token[hidden],#visitor[hidden]{display:none}.snack-token.outside{opacity:.25}.shared-snack{animation:snack-share 7s linear both}
+#visitor{position:absolute;width:146px;height:110px;transform:translate(-50%,-65%);pointer-events:none;transition:left .7s,top .7s}#visitor-shell,#visitor-shell svg{display:block;width:100%;height:100%;overflow:visible}#visitor-shell{transform-origin:50% 85%}
+body.snack-mode #creature{width:146px;height:110px;bottom:auto;transform:translate(-50%,-65%);transition:left .7s,top .7s}
+#creature.cursor-playing{bottom:auto;transform:translate(-50%,-65%);transition:none}
+#creature[data-chase=flop] #shell{animation:cursor-flop 2.4s ease-out both!important}#creature[data-chase=peek] #shell{animation:cursor-peek .9s ease-in-out both!important}
+@keyframes cursor-flop{0%{transform:scale(1,1)}20%,85%{transform:scale(1.25,.55)}100%{transform:scale(1.16,.65)}}@keyframes cursor-peek{0%{transform:scale(1.16,.65)}55%{transform:scale(.96,1.08) rotate(-6deg)}100%{transform:scale(1,1)}}@keyframes snack-share{0%,65%{opacity:1}100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){#creature,#shell,#visitor,#visitor svg,.shared-snack,#creature[data-chase] #shell{animation:none!important;transition:none!important}}
+
+body.welcome-controls .controls{opacity:1}.controls{gap:1px}.controls button{width:25px;min-width:25px}
+body.following #creature{left:12px!important;top:auto!important;bottom:15px;transform:none}
+
+body.parked #shell{animation:soft-sleep 6s ease-in-out infinite}
+/* Entrance poses mirror automatically on the two sides of the snack. */
+body.snack-mode #shell{--far:-28px;--near:-14px;--past:19px;--tilt:-6deg}
+#visitor-shell{--far:28px;--near:14px;--past:-19px;--tilt:6deg}
+body.snack-mode:not(.snack-sharing) #shell,body.snack-mode:not(.snack-sharing) #visitor-shell{
+  animation:none;transform:translateX(var(--far))
+}
+body.snack-sharing #shell,body.snack-sharing #visitor-shell{
+  animation-duration:4s;animation-iteration-count:1;animation-delay:var(--snack-delay,0ms);animation-fill-mode:both
+}
+body.snack-sharing[data-friend=miso] #shell,body.snack-sharing #visitor[data-friend=miso] #visitor-shell{animation-name:shy-snack}
+body.snack-sharing[data-friend=moss] #shell,body.snack-sharing #visitor[data-friend=moss] #visitor-shell{animation-name:eager-snack}
+body.snack-sharing[data-friend=pip] #shell,body.snack-sharing #visitor[data-friend=pip] #visitor-shell{animation-name:sneaky-snack}
+body.snack-sharing .shared-snack{animation-delay:var(--snack-delay,0ms)}
+@keyframes shy-snack{
+  0%,14%{transform:translateX(var(--far)) scale(.98,1.02)}
+  28%,39%{transform:translateX(var(--near)) scale(1.08,.93)}
+  58%{transform:scale(1.08,.93)}
+  70%,100%{transform:none}
+}
+@keyframes eager-snack{
+  0%{transform:translateX(var(--far))}
+  8%{transform:translateX(var(--near)) translateY(-17px) scale(.93,1.08)}
+  16%{transform:translateX(var(--past)) scale(1.16,.81)}
+  22%{transform:translateX(var(--past)) rotate(var(--tilt))}
+  29%{transform:scale(1.08,.92)}
+  40%,100%{transform:none}
+}
+@keyframes sneaky-snack{
+  0%,48%{transform:translateX(var(--far)) rotate(var(--tilt))}
+  61%,66%{transform:translateX(var(--near)) scale(1.1,.92)}
+  78%{transform:scale(1.09,.91)}
+  91%,100%{transform:none}
+}
+@media(prefers-reduced-motion:reduce){body #shell,body #visitor-shell{animation:none!important;transform:none!important}}
+
+/* Effects stay anchored to the creature as the window, visitor, or pointer moves. */
+#feeling{position:absolute;left:50%;top:0;width:98px;height:55px;transform:translateX(-50%);pointer-events:none;z-index:8}
+#feeling svg{display:block;width:100%;height:100%;overflow:visible}
+#feeling[hidden]{display:none}
+body.following #feeling,body.snack-mode #feeling{top:-22px;width:76px;height:43px}
+.feel-rise{transform-box:fill-box;transform-origin:center;animation:feeling-rise 1.8s ease-out infinite}
+.feel-cloud,.feel-drift{animation:feeling-drift 2.8s ease-in-out infinite}
+.feel-drop{animation:feeling-rain 1.1s linear infinite}
+.feel-twinkle{transform-box:fill-box;transform-origin:center;animation:feeling-twinkle 1.65s ease-in-out infinite}
+.feel-startle{transform-origin:50px 35px;animation:feeling-startle .55s ease-out both}
+.feel-bolt{animation:feeling-bolt 2.4s ease-in-out infinite}
+@keyframes feeling-rise{0%{transform:translateY(5px) scale(.74);opacity:.65}65%{transform:translateY(-6px) scale(1);opacity:1}100%{transform:translateY(-11px) scale(.94);opacity:.4}}
+@keyframes feeling-drift{50%{transform:translateY(-3px)}}
+@keyframes feeling-rain{0%{transform:translateY(-3px);opacity:0}25%{opacity:1}100%{transform:translateY(9px);opacity:.16}}
+@keyframes feeling-twinkle{50%{transform:scale(.66);opacity:.58}}
+@keyframes feeling-startle{0%{transform:scale(.5);opacity:.4}40%{transform:scale(1.12);opacity:1}100%{transform:scale(1);opacity:.6}}
+@keyframes feeling-bolt{0%,100%{opacity:.55}50%{opacity:1}}
+
+#egg-stage{position:absolute;inset:0;pointer-events:none}
+#egg-stage>svg{display:block;width:100%;height:100%}
+#egg-stage .feel-drop,#egg-stage .feel-cloud{animation:none}
+body.egg-playing #pet-world,body.egg-playing .controls{visibility:hidden}
+.controls:has(#replay-egg:not([hidden])) button{width:23px;min-width:23px}
+#snack-toy .fizzy-bead{animation:feeling-drift .85s ease-in-out infinite}
+
+body.browser-preview.egg-playing .controls{left:auto;right:8px;transform:none;width:auto;opacity:1;visibility:visible}
+body.browser-preview.egg-playing .controls button:not(#pause){display:none}
+
+.invitation-ball{position:absolute;width:38px;height:38px;bottom:57px;padding:0;z-index:8}.invitation-ball[hidden]{display:none}.invitation-ball svg{width:100%;height:100%}body[data-toy="playing"] #shell{animation:toy-nudge .7s ease-in-out 4}body[data-toy="waiting"] #shell{animation:soft-breath 4s ease-in-out infinite}@keyframes toy-nudge{50%{transform:translateX(12px) scale(1.08,.93)}}
+.controls{width:min(326px,96vw);flex-wrap:wrap;justify-content:center}.invitation-ball{bottom:86px}
+
+.controls[hidden]{display:none}
+body.native-pet .controls:not([hidden]){
+ bottom:auto;height:39px;flex-wrap:nowrap;opacity:1;z-index:9
+}
+body.native-pet .controls #drag{display:none}
+body.native-pet.following .controls:not([hidden]){display:flex;width:40px}
+body.native-pet.following .controls button:not(#follow){display:none}
+body.native-pet:not(.following) #creature{bottom:24px}
+body.native-pet:not(.following) .invitation-ball{bottom:43px}
+body.native-pet.snack-mode:not(.following) #creature{
+ left:50%;top:auto;bottom:38px;width:160px;height:110px;transform:translateX(-50%);
+}
+body.native-pet.snack-mode #visitor{
+ left:calc(50% + 112px);top:auto;bottom:38px;transform:translateX(-50%);
+}
+body.native-pet.snack-mode #shared-snack{
+ left:calc(50% + 56px);top:auto;bottom:43px;transform:translateX(-50%);
+}
+#creature[data-stay-motion="peek"] #shell{animation:stay-peek 1.3s ease-in-out}
+#creature[data-stay-motion="blink"] #shell{animation:stay-blink .6s ease-in-out}
+#creature[data-stay-motion="stretch"] #shell{animation:stay-stretch 1.45s ease-in-out}
+#creature[data-stay-motion="doze"] #shell{animation:stay-doze 3.6s ease-in-out}
+#creature[data-stay-motion="wiggle"] #shell{animation:stay-wiggle 1.4s ease-in-out}
+#creature[data-stay-motion="lean"] #shell{animation:stay-lean 1.45s ease-in-out}
+#creature[data-stay-motion="bounce"] #shell{animation:stay-bounce 1.35s ease-in-out}
+#creature[data-stay-motion="bow"] #shell{animation:stay-bow 1.5s ease-in-out}
+@keyframes stay-peek{32%{transform:rotate(-5deg) scale(.97,1.05)}62%{transform:rotate(4deg)}}
+@keyframes stay-blink{50%{transform:scale(1.025,.96)}}
+@keyframes stay-stretch{35%{transform:scale(.86,1.16)}65%{transform:scale(1.05,.94)}}
+@keyframes stay-doze{18%,78%{transform:scale(1.1,.83)}48%{transform:scale(1.08,.88)}}
+@keyframes stay-wiggle{20%,55%{transform:rotate(-4deg) scale(1.03,.98)}37%,73%{transform:rotate(4deg)}}
+@keyframes stay-lean{32%{transform:rotate(-6deg) scale(1.05,.95)}67%{transform:scale(1.04,.97)}}
+@keyframes stay-bounce{
+  16%{transform:scale(1.15,.84)}
+  38%{transform:translateY(-21px) scale(.92,1.1)}
+  65%{transform:scale(1.11,.9)}
+  80%{transform:scale(.99,1.03)}
+}
+@keyframes stay-bow{30%,55%{transform:rotate(9deg) scale(1.04,.9)}76%{transform:rotate(-3deg)}}
+body[data-paused="true"] #shell,body[data-paused="true"] #feeling *{animation-play-state:paused!important}
+
+/* A full draw stays within the part of a perched panel visible on the desktop. */
+#egg-stage[data-fortune]>svg{display:block;width:min(100%,400px);height:100%;margin:auto}
+.browser-preview #egg-stage[data-fortune]{top:auto;bottom:76px;height:min(240px,calc(100% - 78px))}
+#fortune-result{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);pointer-events:none}
+body.native-pet:not(.following) .controls button{width:22px;min-width:22px;padding:2px}

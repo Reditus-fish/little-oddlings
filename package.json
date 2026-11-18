@@ -1,0 +1,19 @@
+{
+  "name": "nurture-game",
+  "version": "0.12.0",
+  "private": true,
+  "type": "module",
+  "description": "Free, open-source one-eyed companions in a tiny interactive habitat",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test",
+    "build": "node scripts/build.mjs",
+    "preview": "node scripts/preview.mjs",
+    "desktop:build": "node scripts/build-desktop.mjs",
+    "desktop": "node scripts/launch-desktop.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "license": "MIT"
+}
