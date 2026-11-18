@@ -8,8 +8,6 @@ helps explain an interaction much faster than a long feature list.
 
 - Improve one personality's reaction in `public/core/content.js`.
 - Propose a short English or Traditional Chinese joke with its cultural context.
-  Adapt the joke, not just the words: 社恐 / 社交恐怖份子 needs different delivery
-  from ordinary English "social anxiety".
 - Draw an original accessory in `public/cartoon.js` or an object in `public/objects.js`.
 - Fix keyboard, contrast, small-screen, or reduced-motion behavior.
 - Report a confusing first minute, with your browser and steps to reproduce.
